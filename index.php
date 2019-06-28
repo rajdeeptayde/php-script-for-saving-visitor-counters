@@ -14,9 +14,14 @@ $today = new DateTime('today');
 -*
 -*--------------------------------------------------------------------------------------------------*/
 if($today->format('Y-m-d H:i:s') < $last_day_of_month->format('Y-m-d H:i:s') && $today->format('Y-m-d H:i:s') > $first_day_of_month->format('Y-m-d H:i:s')){
-    echo "<br>update counter of this month<br>";
+    
+    /*---------------------------------------------
+    *   update visitor counter of this month here           
+    *   you can simply update the database column
+    -----------------------------------------------*/
+    
 
-    $db->query("UPDATE profile  SET total_monthly_visits = total_monthly_visits + 1  WHERE id = '". $userID ."'");
+    
 }
 
 
@@ -32,15 +37,20 @@ $last_day_of_week = new DateTime('last day of this week');
 -*--------------------------------------------------------------------------------------------------*/
 
 if($today->format('Y-m-d H:i:s') < $last_day_of_week->format('Y-m-d H:i:s') && $today->format('Y-m-d H:i:s') > $first_day_of_week->format('Y-m-d H:i:s')){
-    echo "<br>update counter of this Week<br>";
 
-    $db->query("UPDATE profile  SET total_weekly_visits = total_weekly_visits + 1  WHERE id = '". $userID ."'");
+    /*---------------------------------------------
+    *   update visitor counter of this Week here          
+    *   you can simply update the database column
+    -----------------------------------------------*/
+    
+
+
+    
 
 }
 
 
-/*echo $today->format('Y-m-d');
-*/
+
 
 if(!empty($row[0]['todays_visits']) && $row[0]['todays_visits'] ! = NULL){
     $today_array_from_db = $row[0]['todays_visits'];    
@@ -50,7 +60,7 @@ if(!empty($row[0]['todays_visits']) && $row[0]['todays_visits'] ! = NULL){
 
 $json_today_array_from_db = json_encode($today_array_from_db);
 
-/*print_r($json_today_array_from_db);*/
+
 
 $array_today_array_from_db = json_decode($json_today_array_from_db,true);
 
@@ -58,7 +68,7 @@ $array_today_array_from_db = json_decode($json_today_array_from_db,true);
 
 if(array_key_exists($today->format('Y-m-d'),$array_today_array_from_db)){
 
-    /*echo "yes it does exists";*/
+    
     $old_val = $array_today_array_from_db[$today->format('Y-m-d')];
 
     $new_val = $old_val+1;
@@ -66,7 +76,10 @@ if(array_key_exists($today->format('Y-m-d'),$array_today_array_from_db)){
 
     $json_updated = json_decode($array_today_array_from_db);
 
-    $db->query("UPDATE profile  SET todays_visits = '".$json_updated."'  WHERE id = '". $userID ."'");
+    /*---------------------------------------------
+    *   update visitor counter of today here          
+    *   you can simply update the database column
+    -----------------------------------------------*/
 
 }else{
 
@@ -74,7 +87,10 @@ if(array_key_exists($today->format('Y-m-d'),$array_today_array_from_db)){
     $array_today_array_from_db[$today->format('Y-m-d')] = 1 ;
     $json_updated = json_decode($array_today_array_from_db);
     
-    $db->query("UPDATE profile  SET todays_visits = '".$json_updated."'  WHERE id = '". $userID ."'");
+    /*----------------------------------------------------------------
+    *   update visitor counter of today here simply add 1 to database          
+    *   you can simply update the database column
+    ------------------------------------------------------------------*/
 
 }
 
